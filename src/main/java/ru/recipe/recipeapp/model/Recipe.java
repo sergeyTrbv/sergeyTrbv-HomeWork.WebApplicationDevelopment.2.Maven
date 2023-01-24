@@ -13,7 +13,7 @@ public class Recipe {
     ArrayList<Ingredient> ingredient = new ArrayList<>();
     private ArrayList<Cooking> cookingStep = new ArrayList<>();
 
-
+    //Конструктор
     public Recipe(String name, int cookingTime, ArrayList<Ingredient> ingredient, ArrayList<Cooking> cookingStep) {
         this.name = name;
         this.cookingTime = cookingTime;
@@ -21,6 +21,7 @@ public class Recipe {
         this.cookingStep = cookingStep;
     }
 
+    //Методы
     @Override
     public String toString() {
         return "Рецепт: " + name +
@@ -29,6 +30,7 @@ public class Recipe {
                 ".\n Шаги приготовления: " + cookingStep;
     }
 
+    //Геттеры и Сеттеры
     public String getRecipeName() {
         return name;
     }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.model.Recipe;
 import ru.recipe.recipeapp.service.RecipeService;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +16,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final Map<Integer, Recipe> mapRecipe = new HashMap<>();
 
-@Override
+    @Override
     public void addRecipe(Recipe recipe) {       //Метод добавление рецепта
         mapRecipe.put(Id++, recipe);
     }
-@Override
+
+    @Override
     public Recipe getRecipeById(int id) {       //Метод получение рецепта по Id
         if (mapRecipe.containsKey(id)) {
             return mapRecipe.get(id);
@@ -27,4 +29,11 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RuntimeException("Не удалось получить рецепт");
         }
     }
+
+    @Override
+    public Collection<Recipe> getAll() {       //Метод получения всех рецептов
+        return null;
+    }
+
+
 }
