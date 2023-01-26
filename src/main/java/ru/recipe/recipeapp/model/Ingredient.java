@@ -1,26 +1,24 @@
 package ru.recipe.recipeapp.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ingredient {
 
 
-    private final String nameIngredient;
-    private final int numberOfIngredient;     //Кол-во ингредиентов
-    private final String UnitOfMeasurement;    //Единица измерения
+    private String nameIngredient;
+    private int numberOfIngredient;     //Кол-во ингредиентов
+    private String unitOfMeasurement;    //Единица измерения
 
-    //Конструктор
-    public Ingredient(String nameIngredient, int numberOfIngredient, String unitOfMeasurement) {
-        this.nameIngredient = nameIngredient;
-        this.numberOfIngredient = numberOfIngredient;
-        UnitOfMeasurement = unitOfMeasurement;
-    }
 
     //Методы
     @Override
     public String toString() {
-        return nameIngredient + numberOfIngredient + UnitOfMeasurement;
+        return nameIngredient + numberOfIngredient + unitOfMeasurement;
     }
 
     //Геттеры и Сеттеры
@@ -33,7 +31,7 @@ public class Ingredient {
     }
 
     public String getUnitOfMeasurement() {
-        return UnitOfMeasurement;
+        return unitOfMeasurement;
     }
 
 
