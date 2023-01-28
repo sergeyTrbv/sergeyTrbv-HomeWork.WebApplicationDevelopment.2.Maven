@@ -1,6 +1,7 @@
 package ru.recipe.recipeapp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,17 +32,11 @@ public class RecipeController {
 
     //Методы
     @GetMapping("/getall")
-    @Operation(summary = "Список всех рецептов")
+    @Operation(summary = "Список всех рецептов",description = "Выведет список всех рецептов")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Все рецепты найдены",
-                    content = {
-                            @Content(
-                                    mediaType = "application/JSON",
-                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
-                            )
-                    }
+                    description = "Все рецепты найдены"
             )
     })
     public Map<Integer, Recipe> getAllRecipe() {                                              //Метод "Получение всех рецептов"
@@ -49,19 +44,22 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getRecipe(@PathVariable int id) {                          //Метод "Получение рецепта по id"
+    @Operation(summary = "Поиск определённого рецепта",description = "Нужно указать id рецепта и он , скорее всего, найдётся")
+    public ResponseEntity<Recipe> getRecipe(@PathVariable@Parameter(description = "Идентификатор рецепта, который имеется в базе данных приложения") int id) {                          //Метод "Получение рецепта по id"
         return ResponseEntity.ok(recipeService.getRecipeById(id));
     }
 
 
     @PostMapping("/")
+    @Operation(summary = "Добавление рецепта", description = "Для добавления рецепта нужно создать тело (JSON)")
     public ResponseEntity<Recipe> postRecipe(@RequestBody Recipe recipe) {                  //Метод "Добавить рецепт"
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(recipe);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Recipe> editRecipe(@PathVariable int id, @RequestBody Recipe recipe) {         //Метод "Изменить рецепт"
+    @Operation(summary = "Изменение определённого рецепта", description = "Нужно указать id рецепта, который мы хотим изменить и изменить JSON-файл")
+    public ResponseEntity<Recipe> editRecipe(@PathVariable@Parameter(description = "Идентификатор рецепта, который имеется в базе данных приложения") int id, @RequestBody Recipe recipe) {         //Метод "Изменить рецепт"
         Recipe transactoin = recipeService.editRecipe(id, recipe);
         if (recipe == null) {
             ResponseEntity.notFound().build();
@@ -71,13 +69,15 @@ public class RecipeController {
     }
 
     @DeleteMapping("/deleteall")                                                         //Метод "удалить все рецепты"
+    @Operation(summary = "Удаление всех рецептов",description = "Удалит все рецепты из приложения")
     public ResponseEntity<Recipe> deleteAllRecipe() {
         recipeService.deleteAllRecipe();
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipeById(@PathVariable int id) {                   //Метод "Удалить рецепт"
+    @Operation(summary = "Удаление определённого рецепта", description = "Нужно указать id рецепта и после, удалить его")
+    public ResponseEntity<Void> deleteRecipeById(@PathVariable@Parameter(description = "Идентификатор рецепта, который имеется в базе данных приложения") int id) {                   //Метод "Удалить рецепт"
         if (recipeService.deleteRecipeById(id)) {
             return ResponseEntity.ok().build();
         }
