@@ -15,7 +15,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private static int id = 0;
 
-    public Map<Integer, Ingredient> mapIngredients = new HashMap<>();
+    private Map<Integer, Ingredient> mapIngredients = new HashMap<>();
 
 
     @Override
@@ -32,36 +32,33 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient getIngredientById(int id) {                                    //Метод получение ингридиента по Id
         if (mapIngredients.containsKey(id)) {
             return mapIngredients.get(id);
-        } else {
-            throw new RuntimeException("Не удалось получить ингридиент");
         }
+        throw new RuntimeException("Не удалось получить ингридиент");
     }
+
 
     @Override
     public Ingredient editIngredient(Integer id, Ingredient ingredient) {           //Метод изменение ингридиента по Id
-        for (Ingredient ingredients : mapIngredients.values()) {
-            if (mapIngredients.containsKey(id)) {
-                mapIngredients.put(id, ingredient);
-                return ingredient;
-            }
+        if (mapIngredients.containsKey(id)) {
+            mapIngredients.put(id, ingredient);
+            return ingredient;
         }
-        throw new RuntimeException("Не удалось изменить ингридиент");
+        return mapIngredients.get(id);
     }
+
 
     @Override
     public boolean deleteIngredientById(Integer id) {                               //Метод удаления ингридиента по id
-        for (Ingredient ingredient : mapIngredients.values()) {
-            if (mapIngredients.containsKey(id)) {
-                mapIngredients.remove(id);
-                return true;
-            }
+        if (mapIngredients.containsKey(id)) {
+            mapIngredients.remove(id);
+            return true;
         }
         return false;
     }
 
     @Override
     public Ingredient deleteAllIngredient() {                                      //Метод "удаление всех ингридиентов"
-        mapIngredients = new TreeMap<>();
+        mapIngredients.clear();
         return null;
     }
 }

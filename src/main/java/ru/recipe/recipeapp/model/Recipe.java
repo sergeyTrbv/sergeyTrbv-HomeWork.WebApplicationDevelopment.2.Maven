@@ -14,7 +14,7 @@ public class Recipe {
 
     private String name;
     private int cookingTime;
-    ArrayList<Ingredient> ingredient = new ArrayList<>();
+    private ArrayList<Ingredient> ingredient = new ArrayList<>();
     private ArrayList<Cooking> cookingStep = new ArrayList<>();
 
 

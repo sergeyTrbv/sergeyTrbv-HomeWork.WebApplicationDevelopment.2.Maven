@@ -43,24 +43,19 @@ public class RecipeServiceImpl implements RecipeService {
                 return recipe;
             }
         }
-        throw new RuntimeException("Не удалось изменить рецепт");
+        return mapRecipe.get(id);
 
     }
 
     @Override
     public boolean deleteRecipeById(Integer id) {                                        //Метод удаления рецепта по id
-        for (Recipe recipe : mapRecipe.values()) {
-            if (mapRecipe.containsKey(id)) {
-                mapRecipe.remove(id);
-                return true;
-            }
-        }
-        return false;
+        var removed = mapRecipe.remove(id);
+        return removed != null;
     }
 
     @Override
     public Recipe deleteAllRecipe() {                                                   //Метод "удаление всех рецептов"
-        mapRecipe = new TreeMap<>();
+        mapRecipe.clear();
         return null;
     }
 

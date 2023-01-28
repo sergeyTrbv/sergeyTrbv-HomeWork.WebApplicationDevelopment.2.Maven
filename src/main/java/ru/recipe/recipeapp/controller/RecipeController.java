@@ -1,5 +1,12 @@
 package ru.recipe.recipeapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/recipe")
+@Tag(name = "Рецепты", description = "CRUD-операции и другие эндпоинты для работы с Рецептами")
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -23,6 +31,19 @@ public class RecipeController {
 
     //Методы
     @GetMapping("/getall")
+    @Operation(summary = "Список всех рецептов")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Все рецепты найдены",
+                    content = {
+                            @Content(
+                                    mediaType = "application/JSON",
+                                    array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                            )
+                    }
+            )
+    })
     public Map<Integer, Recipe> getAllRecipe() {                                              //Метод "Получение всех рецептов"
         return this.recipeService.getAll();
     }
