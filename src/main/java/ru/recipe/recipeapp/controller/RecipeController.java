@@ -36,7 +36,11 @@ public class RecipeController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Все рецепты найдены"
+                    description = "Все рецепты найдены",
+                    content = @Content(
+                            mediaType = "application/JSON",
+                            array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                    )
             )
     })
     public Map<Integer, Recipe> getAllRecipe() {                                              //Метод "Получение всех рецептов"
