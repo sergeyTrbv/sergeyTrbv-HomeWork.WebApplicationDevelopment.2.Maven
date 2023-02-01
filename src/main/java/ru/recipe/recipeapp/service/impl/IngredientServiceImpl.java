@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.model.Ingredient;
-import ru.recipe.recipeapp.service.FilesServiceIngredient;
+import ru.recipe.recipeapp.service.FilesService;
 import ru.recipe.recipeapp.service.IngredientService;
 
 import javax.annotation.PostConstruct;
@@ -16,12 +16,12 @@ import java.util.Map;
 public class IngredientServiceImpl implements IngredientService {
 
 
-    final private FilesServiceIngredient filesServiceIngredient;
+    final private FilesService filesServiceIngredient;
     private static int id = 0;
 
     private Map<Integer, Ingredient> mapIngredients = new HashMap<>();
 
-    public IngredientServiceImpl(FilesServiceIngredient filesServiceIngredient) {
+    public IngredientServiceImpl(FilesService filesServiceIngredient) {  //??
         this.filesServiceIngredient = filesServiceIngredient;
     }
 

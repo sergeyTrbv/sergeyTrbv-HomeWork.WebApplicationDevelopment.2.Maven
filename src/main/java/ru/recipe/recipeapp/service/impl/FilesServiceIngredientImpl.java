@@ -3,14 +3,13 @@ package ru.recipe.recipeapp.service.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.service.FilesService;
-import ru.recipe.recipeapp.service.FilesServiceIngredient;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class FilesServiceIngredientImpl implements FilesServiceIngredient {
+public class FilesServiceIngredientImpl implements FilesService {
 
     @Value("${path.to.data.fileIngredient}")
     private String dataFilePath;
@@ -35,7 +34,7 @@ public class FilesServiceIngredientImpl implements FilesServiceIngredient {
         try {
             return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Не удалось прочитать файл");
         }
     }
 

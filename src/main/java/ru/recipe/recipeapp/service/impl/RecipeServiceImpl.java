@@ -9,9 +9,6 @@ import ru.recipe.recipeapp.service.FilesService;
 import ru.recipe.recipeapp.service.RecipeService;
 
 import javax.annotation.PostConstruct;
-import java.time.Month;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,23 +16,23 @@ import java.util.TreeMap;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    final private FilesService filesService;
+    final private FilesService filesServiceRecipe;
     private static int Id = 0;
 
     public Map<Integer, Recipe> mapRecipe = new TreeMap<>();
 
-    public RecipeServiceImpl(FilesService filesService) {
-        this.filesService = filesService;
+    public RecipeServiceImpl(FilesService filesServiceRecipe) {   //?
+        this.filesServiceRecipe = filesServiceRecipe;
     }
 
+
     @PostConstruct
-    private void init(){
+    private void init() {
         readFromFile();
     }
 
 
     @Override
-
     public void addRecipe(Recipe recipe) {                                                //Метод добавление рецепта
         mapRecipe.put(Id++, recipe);
         saveToFile();
@@ -95,7 +92,7 @@ public class RecipeServiceImpl implements RecipeService {
             mapRecipe = new ObjectMapper().readValue(json, new TypeReference<Map<Integer, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Не удалось прочитать файл");
         }
     }
 }

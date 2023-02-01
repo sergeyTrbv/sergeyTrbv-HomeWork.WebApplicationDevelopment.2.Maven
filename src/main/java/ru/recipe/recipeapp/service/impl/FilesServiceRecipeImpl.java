@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class FilesServiceImpl implements FilesService {
+public class FilesServiceRecipeImpl implements FilesService {
 
     @Value("${path.to.data.fileRecipe}")
     private String dataFilePath;
@@ -34,7 +34,7 @@ public class FilesServiceImpl implements FilesService {
         try {
             return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Не удалось прочитать файл");
         }
     }
 
