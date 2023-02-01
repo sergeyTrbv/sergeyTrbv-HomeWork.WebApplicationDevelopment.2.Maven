@@ -1,0 +1,16 @@
+
+### получение рецепта:
+GET http://localhost:8080/recipe/getall
+
+### создание рецепта:
+POST http://localhost:8080/recipe/
+Content-Type: application/json
+
+{
+  "id": "1",
+  "name": "test",
+  "cookingTime": "test",
+  "ingredient": "test",
+  "cookingStep": "test"
+}
+
