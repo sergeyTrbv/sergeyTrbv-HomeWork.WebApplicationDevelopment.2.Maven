@@ -3,6 +3,7 @@ package ru.recipe.recipeapp.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.model.Recipe;
 import ru.recipe.recipeapp.service.FilesService;
@@ -21,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     public Map<Integer, Recipe> mapRecipe = new TreeMap<>();
 
-    public RecipeServiceImpl(FilesService filesServiceRecipe) {   //?
+    public RecipeServiceImpl(@Qualifier("filesServiceRecipeImpl")FilesService filesServiceRecipe) {   //?
         this.filesServiceRecipe = filesServiceRecipe;
     }
 
@@ -80,7 +81,7 @@ public class RecipeServiceImpl implements RecipeService {
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(mapRecipe);
-            filesService.saveToFile(json);
+            filesServiceRecipe.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +89,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     private void readFromFile() {
         try {
-            String json = filesService.readFromFile();
+            String json = filesServiceRecipe.readFromFile();
             mapRecipe = new ObjectMapper().readValue(json, new TypeReference<Map<Integer, Recipe>>() {
             });
         } catch (JsonProcessingException e) {

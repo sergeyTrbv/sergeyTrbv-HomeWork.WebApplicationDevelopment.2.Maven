@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
+@Service("filesServiceRecipeImpl")
 public class FilesServiceRecipeImpl implements FilesService {
 
     @Value("${path.to.data.fileRecipe}")

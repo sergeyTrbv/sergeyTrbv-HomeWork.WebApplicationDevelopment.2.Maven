@@ -3,6 +3,7 @@ package ru.recipe.recipeapp.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.model.Ingredient;
 import ru.recipe.recipeapp.service.FilesService;
@@ -21,7 +22,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private Map<Integer, Ingredient> mapIngredients = new HashMap<>();
 
-    public IngredientServiceImpl(FilesService filesServiceIngredient) {  //??
+    public IngredientServiceImpl(@Qualifier("filesServiceIngredientImpl")FilesService filesServiceIngredient) {  //??
         this.filesServiceIngredient = filesServiceIngredient;
     }
 
