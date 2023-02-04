@@ -2,6 +2,8 @@ package ru.recipe.recipeapp.service;
 
 import ru.recipe.recipeapp.model.Recipe;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 
@@ -19,5 +21,7 @@ public interface RecipeService {
     boolean deleteRecipeById(Integer id);
 
     Recipe deleteAllRecipe();
+
+    Path createRecipeReport() throws IOException;
 }
 

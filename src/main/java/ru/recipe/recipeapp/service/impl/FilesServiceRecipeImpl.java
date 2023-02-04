@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.recipe.recipeapp.service.FilesService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
-public class FilesServiceImpl implements FilesService {
+@Service("filesServiceRecipeImpl")
+public class FilesServiceRecipeImpl implements FilesService {
 
     @Value("${path.to.data.fileRecipe}")
     private String dataFilePath;
@@ -38,7 +39,23 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-    private boolean cleanDataFile() {
+
+    @Override
+    public File getDataFile() {
+        return new File(dataFilePath + "/" + dataFileName);
+    }
+
+    @Override
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean cleanDataFile() {
         try {
             Path path = Path.of(dataFilePath, dataFileName);
             Files.deleteIfExists(path);
@@ -49,6 +66,4 @@ public class FilesServiceImpl implements FilesService {
             return false;
         }
     }
-
-
 }
