@@ -11,18 +11,18 @@ import lombok.NoArgsConstructor;
 public class Ingredient {
 
 
-    @Schema(description = "Ингридиент",example = "Колбаса")
+    @Schema(description = "Ингридиент", example = "Колбаса")
     private String nameIngredient;
-    @Schema(description = "Количество",example = "2")
+    @Schema(description = "Количество", example = "2")
     private int numberOfIngredient;     //Кол-во ингредиентов
-    @Schema(description = "Единица измерения",example = "Дольки")
+    @Schema(description = "Единица измерения", example = "Дольки")
     private String unitOfMeasurement;    //Единица измерения
 
 
     //Методы
     @Override
     public String toString() {
-        return nameIngredient + numberOfIngredient + unitOfMeasurement;
+        return nameIngredient + " - " + numberOfIngredient + " " + unitOfMeasurement;
     }
 
 }

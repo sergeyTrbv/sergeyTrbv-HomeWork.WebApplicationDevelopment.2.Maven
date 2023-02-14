@@ -22,6 +22,7 @@ public interface RecipeService {
 
     Recipe deleteAllRecipe();
 
+
     Path createRecipeReport() throws IOException;
 }
 

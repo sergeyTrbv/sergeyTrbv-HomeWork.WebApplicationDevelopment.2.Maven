@@ -27,7 +27,6 @@ import java.io.*;
 public class FilesRecipeController {
 
 
-
     private final FilesService filesService;
 
     public FilesRecipeController(@Qualifier("filesServiceRecipeImpl") FilesService filesService) {
@@ -36,7 +35,7 @@ public class FilesRecipeController {
 
 
     @GetMapping(value = "/export")
-    @Operation(summary = "Скачать файл рецептов",description = "Возможность скачать файл со всеми рецептами")
+    @Operation(summary = "Скачать файл рецептов", description = "Возможность скачать файл со всеми рецептами")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -46,7 +45,7 @@ public class FilesRecipeController {
                     )
             )
     })
-    public ResponseEntity<InputStreamResource> downloadDataFile() throws FileNotFoundException {
+    public ResponseEntity<InputStreamResource> downloadDataFile() throws FileNotFoundException {                        //Эндпоинт "Выгрузка файла в формате json/Возможность скачать файл рецептов в web"
         File file = filesService.getDataFile();
 
         if (file.exists()) {
@@ -61,8 +60,8 @@ public class FilesRecipeController {
         }
     }
 
-    @PostMapping(value = "/import",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Загрузить файл рецептов",description = "Возможность загрузить файл с рецептами")
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Загрузить файл рецептов", description = "Возможность загрузить файл с рецептами")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -72,7 +71,7 @@ public class FilesRecipeController {
                     )
             )
     })
-    public ResponseEntity<Void> uploadDataFile(@RequestParam MultipartFile file) {
+    public ResponseEntity<Void> uploadDataFile(@RequestParam MultipartFile file) {                                      //Эндпоинт "Загрузка файла/Возможность прочитать файл и сохранить рецепт"
         filesService.cleanDataFile();
         File dataFile = filesService.getDataFile();
 
@@ -84,4 +83,23 @@ public class FilesRecipeController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+
+    @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл рецептов в web"
+    public ResponseEntity<byte[]> exportTxt() {
+        byte[] bytes = filesService.exportTxt();
+
+        if (bytes == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .contentLength(bytes.length)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"RecipeFile.txt\"")
+                .body(bytes);
+
+
+    }
+
+
 }

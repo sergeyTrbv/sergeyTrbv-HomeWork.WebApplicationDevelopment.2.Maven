@@ -65,4 +65,11 @@ public class FilesServiceIngredientImpl implements FilesService {
             return false;
         }
     }
+
+    @Override
+    public byte[] exportTxt() {
+        return new byte[0];
+    }
+
+
 }

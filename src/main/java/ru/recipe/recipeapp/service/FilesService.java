@@ -13,4 +13,6 @@ public interface FilesService {
     Path createTempFile(String suffix);
 
     boolean cleanDataFile();
+
+    byte[] exportTxt();
 }
