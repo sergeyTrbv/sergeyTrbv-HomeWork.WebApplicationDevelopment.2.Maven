@@ -1,0 +1,12 @@
+{
+  "0": {
+    "nameIngredient": "aaa",
+    "numberOfIngredient": 1,
+    "unitOfMeasurement": "aaa"
+  },
+  "1": {
+    "nameIngredient": "bbb",
+    "numberOfIngredient": 2,
+    "unitOfMeasurement": "bbb"
+  }
+}
