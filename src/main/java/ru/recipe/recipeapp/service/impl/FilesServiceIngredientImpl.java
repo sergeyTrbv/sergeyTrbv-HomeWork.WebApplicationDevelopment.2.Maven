@@ -2,15 +2,17 @@ package ru.recipe.recipeapp.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.recipe.recipeapp.model.Ingredient;
 import ru.recipe.recipeapp.service.FilesService;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 @Service("filesServiceIngredientImpl")
-public class FilesServiceIngredientImpl implements FilesService {
+public class FilesServiceIngredientImpl implements FilesService<Ingredient> {
 
     @Value("${path.to.data.fileIngredient}")
     private String dataFilePath;
@@ -67,9 +69,7 @@ public class FilesServiceIngredientImpl implements FilesService {
     }
 
     @Override
-    public byte[] exportTxt() {
-        return new byte[0];
+    public byte[] exportTxt(Map<Integer, Ingredient> map) {
+        return new byte[0]; // сюда написать логику выгрузки мапы с ингредиентами.
     }
-
-
 }

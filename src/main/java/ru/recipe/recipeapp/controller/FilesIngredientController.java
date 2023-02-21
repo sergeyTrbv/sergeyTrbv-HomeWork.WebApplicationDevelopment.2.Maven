@@ -16,8 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.recipe.recipeapp.model.Ingredient;
 import ru.recipe.recipeapp.model.Recipe;
 import ru.recipe.recipeapp.service.FilesService;
+import ru.recipe.recipeapp.service.IngredientService;
 
 import java.io.*;
 
@@ -26,12 +28,12 @@ import java.io.*;
 @Tag(name = "Ингридиенты(работа с файлами)", description = "Input/Output и другие эндпоинты для работы с файлами Ингридиентов")
 public class FilesIngredientController {
 
+    private final FilesService<Ingredient> filesService;
+    private final IngredientService ingredientService;
 
-
-    private final FilesService filesService;
-
-    public FilesIngredientController(@Qualifier("filesServiceIngredientImpl") FilesService filesService) {
+    public FilesIngredientController(@Qualifier("filesServiceIngredientImpl") FilesService<Ingredient> filesService, IngredientService ingredientService) {
         this.filesService = filesService;
+        this.ingredientService = ingredientService;
     }
 
 
@@ -83,5 +85,19 @@ public class FilesIngredientController {
             e.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл рецептов в web"
+    public ResponseEntity<byte[]> exportTxt() {
+        byte[] bytes = filesService.exportTxt(ingredientService.getAll());
+
+        if (bytes == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .contentLength(bytes.length)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"IngredientFile.txt\"")
+                .body(bytes);
     }
 }

@@ -15,13 +15,11 @@ public interface RecipeService {
 
     Recipe getRecipeById(int id);
 
-
     Recipe editRecipe(Integer id, Recipe recipe);
 
     boolean deleteRecipeById(Integer id);
 
     Recipe deleteAllRecipe();
-
 
     Path createRecipeReport() throws IOException;
 }

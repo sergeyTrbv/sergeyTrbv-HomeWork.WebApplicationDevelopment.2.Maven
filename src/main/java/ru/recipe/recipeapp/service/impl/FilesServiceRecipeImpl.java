@@ -20,16 +20,24 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 @Service("filesServiceRecipeImpl")
-public class FilesServiceRecipeImpl implements FilesService {
+public class FilesServiceRecipeImpl implements FilesService<Recipe> {
 
     @Value("${path.to.data.fileRecipe}")
     private String dataFilePath;
-
     @Value("${name.of.data.fileRecipe}")
     private String dataFileName;
 
 
+    @Value("${path.to.data.fileRecipeTxt}")
+    private String dataFilePathTxt;
+    @Value("${name.of.data.fileRecipeTxt}")
+    private String dataFileNameTxt;
 
+    private final Path pathToTxtTemplate;
+
+    public FilesServiceRecipeImpl(@Value("${path.to.data.fileRecipeTxt}") String path) {
+        this.pathToTxtTemplate = Paths.get(path);
+    }
 
     @Override
     public boolean saveToFile(String json) {
@@ -79,18 +87,14 @@ public class FilesServiceRecipeImpl implements FilesService {
             return false;
         }
     }
-    private final Path pathToTxtTemplate;
 
-    public FilesServiceRecipeImpl(@Qualifier("filesServiceRecipeImpl") FilesService filesServiceRecipe, @Value("{path.to.data.fileRecipeTxt}") String path) throws URISyntaxException {
-        this.pathToTxtTemplate = Paths.get(FilesServiceRecipeImpl.class.getResource("name.of.data.fileRecipeTxt").toURI());
-    }
 
     @Override
-    public byte[] exportTxt() {
+    public byte[] exportTxt(Map<Integer, Recipe> recipeMap) {
         try {
-            String template = Files.readString(pathToTxtTemplate, StandardCharsets.UTF_8);
+            String template = Files.readString(Paths.get(dataFilePathTxt, dataFileNameTxt), StandardCharsets.UTF_8);
             StringBuilder stringBuilder = new StringBuilder();
-            for (Recipe recipe : mapRecipe.values()) {
+            for (Recipe recipe : recipeMap.values()) {
                 StringBuilder ingredients = new StringBuilder();
                 StringBuilder steps = new StringBuilder();
                 for (Ingredient ingredient : recipe.getIngredient()) {
@@ -112,6 +116,4 @@ public class FilesServiceRecipeImpl implements FilesService {
         }
         return null;
     }
-
-
 }

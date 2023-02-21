@@ -21,13 +21,13 @@ import java.util.TreeMap;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    final private FilesService filesServiceRecipe;
+    private final FilesService<Recipe> filesServiceRecipe;
     private static int Id = 0;
 
 
     public Map<Integer, Recipe> mapRecipe = new TreeMap<>();
 
-    public RecipeServiceImpl(@Qualifier("filesServiceRecipeImpl")FilesService filesServiceRecipe) {
+    public RecipeServiceImpl(@Qualifier("filesServiceRecipeImpl") FilesService<Recipe> filesServiceRecipe) {
         this.filesServiceRecipe = filesServiceRecipe;
     }
 
@@ -39,7 +39,6 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-
     public void addRecipe(Recipe recipe) {                                                //Метод добавление рецепта
         mapRecipe.put(Id++, recipe);
         saveToFile();
@@ -116,6 +115,8 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return path;
     }
+
+
 
 
 }

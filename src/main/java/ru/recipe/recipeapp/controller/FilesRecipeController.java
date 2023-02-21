@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.recipe.recipeapp.model.Recipe;
 import ru.recipe.recipeapp.service.FilesService;
+import ru.recipe.recipeapp.service.RecipeService;
 
 import java.io.*;
 
@@ -27,10 +28,13 @@ import java.io.*;
 public class FilesRecipeController {
 
 
-    private final FilesService filesService;
+    private final FilesService<Recipe> filesService;
+    private final RecipeService recipeService;
 
-    public FilesRecipeController(@Qualifier("filesServiceRecipeImpl") FilesService filesService) {
+
+    public FilesRecipeController(@Qualifier("filesServiceRecipeImpl") FilesService<Recipe> filesService, RecipeService recipeService) {
         this.filesService = filesService;
+        this.recipeService = recipeService;
     }
 
 
@@ -87,7 +91,7 @@ public class FilesRecipeController {
 
     @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл рецептов в web"
     public ResponseEntity<byte[]> exportTxt() {
-        byte[] bytes = filesService.exportTxt();
+        byte[] bytes = filesService.exportTxt(recipeService.getAll());
 
         if (bytes == null) {
             return ResponseEntity.internalServerError().build();
@@ -95,7 +99,7 @@ public class FilesRecipeController {
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
                 .contentLength(bytes.length)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"RecipeFile.txt\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"RecipeFileInfo.txt\"")
                 .body(bytes);
 
 

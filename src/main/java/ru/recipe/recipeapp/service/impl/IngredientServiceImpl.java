@@ -17,12 +17,12 @@ import java.util.Map;
 public class IngredientServiceImpl implements IngredientService {
 
 
-    final private FilesService filesServiceIngredient;
+    final private FilesService<Ingredient> filesServiceIngredient;
     private static int id = 0;
 
     private Map<Integer, Ingredient> mapIngredients = new HashMap<>();
 
-    public IngredientServiceImpl(@Qualifier("filesServiceIngredientImpl")FilesService filesServiceIngredient) {
+    public IngredientServiceImpl(@Qualifier("filesServiceIngredientImpl") FilesService<Ingredient> filesServiceIngredient) {
         this.filesServiceIngredient = filesServiceIngredient;
     }
 
