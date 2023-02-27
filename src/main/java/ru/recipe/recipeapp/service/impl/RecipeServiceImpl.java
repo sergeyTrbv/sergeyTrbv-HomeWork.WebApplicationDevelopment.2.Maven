@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,7 +23,7 @@ import java.util.TreeMap;
 public class RecipeServiceImpl implements RecipeService {
 
     private final FilesService<Recipe> filesServiceRecipe;
-    private static int Id = 0;
+    private static int id = 0;
 
 
     public Map<Integer, Recipe> mapRecipe = new TreeMap<>();
@@ -38,11 +39,21 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
 
+//    @Override
+//    public Integer addRecipe(Recipe recipe) {                                                //Метод добавление рецепта
+//        mapRecipe.put(id, recipe);
+//        saveToFile();
+//        return id++;
+//    }
+
     @Override
-    public void addRecipe(Recipe recipe) {                                                //Метод добавление рецепта
-        mapRecipe.put(Id++, recipe);
+    public Recipe addRecipe(Recipe recipe) {                                                //Метод добавление рецепта
+
+        Recipe newRecipe = mapRecipe.put(id++, recipe);
         saveToFile();
+        return newRecipe;
     }
+
 
     @Override
     public Map<Integer, Recipe> getAll() {                                               //Метод получения всех рецептов
@@ -104,19 +115,17 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public Path createRecipeReport() throws IOException {
+    public Path createRecipeReport(Integer id) throws IOException {
         Map<Integer, Recipe> allrecipe = mapRecipe;
         Path path = filesServiceRecipe.createTempFile("recipeReport");
         for (Recipe recipe : allrecipe.values()) {
             try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
-                writer.append(recipe.getName() + ": " + recipe.getCookingTime() + " " + recipe.getCookingStep());
-                writer.append("\n");
+                writer.append(recipe.toString());
+                writer.append("\n\n");
             }
         }
         return path;
     }
-
-
 
 
 }

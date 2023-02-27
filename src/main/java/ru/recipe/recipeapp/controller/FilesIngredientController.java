@@ -87,7 +87,17 @@ public class FilesIngredientController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл рецептов в web"
+    @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл ингредиентов в web"
+    @Operation(summary = "Скачать файл со всеми ингредиентами в формате txt", description = "Возможность скачать файл со всеми ингредиентами(файл txt)")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Файл с ингредиентами скачан",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
+                    )
+            )
+    })
     public ResponseEntity<byte[]> exportTxt() {
         byte[] bytes = filesService.exportTxt(ingredientService.getAll());
 

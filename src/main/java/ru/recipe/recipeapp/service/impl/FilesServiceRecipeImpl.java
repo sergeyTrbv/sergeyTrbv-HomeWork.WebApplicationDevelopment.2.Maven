@@ -60,14 +60,13 @@ public class FilesServiceRecipeImpl implements FilesService<Recipe> {
         }
     }
 
-
     @Override
     public File getDataFile() {
         return new File(dataFilePath + "/" + dataFileName);
     }
 
     @Override
-    public Path createTempFile(String suffix) {
+    public Path createTempFile(String suffix) {                                                                         //Метод "путь до временного файла"
         try {
             return Files.createTempFile(Path.of(dataFilePath), "tempFile", suffix);
         } catch (IOException e) {
@@ -96,19 +95,19 @@ public class FilesServiceRecipeImpl implements FilesService<Recipe> {
             StringBuilder stringBuilder = new StringBuilder();
             for (Recipe recipe : recipeMap.values()) {
                 StringBuilder ingredients = new StringBuilder();
-                StringBuilder steps = new StringBuilder();
+                StringBuilder cooking = new StringBuilder();
                 for (Ingredient ingredient : recipe.getIngredient()) {
-                    ingredients.append(" - ").append(ingredient).append("\n");
+                    ingredients.append("  ").append(ingredient).append("\n");
                 }
                 int stepCounter = 1;
                 for (Cooking step : recipe.getCookingStep()) {
-                    steps.append((stepCounter++)).append(". ").append(step).append("\n");
+                    cooking.append((stepCounter++)).append(". ").append(step).append("\n");
                 }
                 String recipeData = template.replace("%title%", recipe.getName())
                         .replace("%cookingTime%", String.valueOf(recipe.getCookingTime()))
                         .replace("%ingredient%", ingredients.toString())
-                        .replace("%steps%", steps.toString());
-                stringBuilder.append(recipeData).append("\n\n\n");
+                        .replace("%cookingStep%", cooking.toString());
+                stringBuilder.append(recipeData).append("\n\n-----------------------------------------\n\n");
             }
             return stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package ru.recipe.recipeapp.service;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import ru.recipe.recipeapp.model.Recipe;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public interface RecipeService {
 
-    void addRecipe(Recipe recipe);
+   Recipe addRecipe(Recipe recipe);
 
     Map<Integer, Recipe> getAll();
 
@@ -21,6 +22,6 @@ public interface RecipeService {
 
     Recipe deleteAllRecipe();
 
-    Path createRecipeReport() throws IOException;
+    Path createRecipeReport(Integer id) throws IOException;
 }
 

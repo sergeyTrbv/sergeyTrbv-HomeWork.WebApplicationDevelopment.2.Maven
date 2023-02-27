@@ -39,7 +39,7 @@ public class FilesRecipeController {
 
 
     @GetMapping(value = "/export")
-    @Operation(summary = "Скачать файл рецептов", description = "Возможность скачать файл со всеми рецептами")
+    @Operation(summary = "Скачать файл со всеми рецептами в формате json", description = "Возможность скачать файл со всеми рецептами(файл json)")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -89,7 +89,18 @@ public class FilesRecipeController {
     }
 
 
+
     @GetMapping(value = "exportTxt")                                          //Эндпоинт "Выгрузка файла в формате txt/Возможность скачать файл рецептов в web"
+    @Operation(summary = "Скачать файл со всеми рецептами в формате txt", description = "Возможность скачать файл со всеми рецептами(файл txt)")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Файл с рецептами скачан",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                    )
+            )
+    })
     public ResponseEntity<byte[]> exportTxt() {
         byte[] bytes = filesService.exportTxt(recipeService.getAll());
 
